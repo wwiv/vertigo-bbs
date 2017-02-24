@@ -1,0 +1,182 @@
+	============
+	What is ACS?
+	============
+
+	ACS is a pseudonym for Access Command System. The ACS system is used
+	throughout Mystic BBS to define access requirements to certain commands and
+	functions.
+
+	The ACS system is extremely powerful and designed to give the System Operator
+	total control over who can do what.
+
+	ACS values can be found in various locations throughout the configuration
+	editors, and can also be used inside MPL programs and BBS menus.
+
+	=================
+	ACS String Syntax
+	=================
+
+	An ACS string consists of an operator command, followed by secondary data if
+	that operator command requires secondary data. Many operator commands do
+	require additional information (secondary data), but there are some that do
+	not.
+
+	Each operator command is calculated to either a TRUE or FALSE value depending
+	on the type of operator and the data it is targeting.
+
+	Operator commands can also be used in conjunction with logical operators in
+	order to create complex ACS strings. If the overall result of an ACS string
+	is TRUE, then the user is given access to whatever the ACS string is
+	protecting.  If the overall result of the ACS string is FALSE, then the user
+	does not gain access to whatever the ACS string is protecting.
+
+	The following logical operators are supported:
+
+	   & = Logical AND
+	   | = Logical OR
+	   ! = Logical NOT
+	   ^ = Always TRUE
+	   % = Always FALSE
+
+	In addition to the logical operators, parentheses can be used to give priority
+	to a specific calculation so that its TRUE/FALSE result is calculated before
+	others.  Generally, operators are evaluated in the order that they appear,
+	unless parenthesis are supplied to state otherwise.
+
+	ACS strings can contain a maximum of 30 characters/
+
+	==============================
+	ACS Operator Command Reference
+	==============================
+
+        Ax  -  This command is used to check the user's age.  Where X is
+               the age the user must be in order to pass.
+
+   Dx  -  This command is used to check if a user has a certain flag
+          toggled ON in their SECOND set of flags.  Where X is the
+          flag which the user must have in order to pass.  For
+          example: DA will require the user to have user access flag
+          D in flag set 2 in order to pass.
+
+   Ex  -  This command is used to check the user's current graphics
+          mode.  Where X is one of the following:
+   
+               1 - User must have ANSI graphics
+               0 - User must have ASCII (none) graphics.
+
+   Fx  -  This command is used to check if a user has a certain flag
+          toggled ON in their FIRST set of flags.  Where X is the
+          flag which the user must have in order to pass.  For
+          example: FA will require the user to have user access flag
+          A in flag set 1 in order to pass.
+
+   Gx  -  This command is used to check if a user is in a certain
+          message group.  Where X is the number of the group as listed
+          in the message group editor.  For example: G1 will require
+          the user to be in message group #1 in order to pass.
+
+   Hx  -  This command is used to check if a user is accessing
+          a command at a certain hour.  Where X is the hour in the
+          24-hour mode (ie 00 is midnight or after, 23 is 11pm or
+          after).  For example: H12 will prevent the user from
+          accessing this command before 12 noon on any given day.
+
+   Mx  -  This command is used to check if a user is accessing
+          a command at a certain minute.  Where X is the minute in
+          the hour.  For example: M30 will prevent the user from
+          accessing this command in the first 30 minutes of the
+          hour.
+
+   Nx  -  This command is used to check if a user is online a
+          certain node number.  For example: N1 will require that
+          the user is currently logged in on Node 1 in order to
+          pass.
+
+   OA  -  This command is used to check the status of the user's
+          node message availibility.  If the user is able to
+          receive node messages, OA will return true.  False if
+          they are not available.
+
+   OI  -  This command is used to check if a user's node status
+          is invisible to other nodes.  It will be set TRUE if
+          the user is invisible, false if not.
+
+   OK  -  This command is used to check the result of the last
+          called Boolean menu command.  For more information, see
+          the menu commands: -P, -Y, and -N.
+
+   OM  -  This command returns TRUE if the user has SysOp access
+          to the current message base  *OR*  if the user is
+          currently reading a message and the message they are
+          reading was posted by them.
+
+   ON  -  This command returns TRUE if the last message scan had
+          new messages.
+
+   OP  -  This command is used to check the status of the user's
+          post / call ratio.  If the user meets the currently set
+          ratio, then OP will be true - otherwise, if will return
+          false.  This option is useful to restrict users from
+          downloading if they're not active message posters.
+
+   OY  -  This command returns TRUE if the last message scan had
+          new messages addressed to the user. 
+
+   Sx  -  This command is used to check if a user meets a certain
+          security level.  For example: S20 will require the user
+          to have a security level of 20 or higher in order to
+          pass.
+
+   Tx  -  This command is used to check if a user has at least
+          X minutes remaining in online time.  For example: T10
+          would require the user to have a least 10 minutes of
+          remaining time in order to pass.
+
+   Ux  -  This command is used to check a user's permanent user
+          number, where X is the number of the permanent index the
+          user must match.  For example: U1 would require the user
+          to have the permanent user index of 1.  Each user's
+          permanent index is listed in the user editor, and no two
+          users will ever have the same permanent index number.
+
+   Wx  -  This command is used to evaluate the current day of the
+          week, where X is a number from 0 to 6, each one begin
+          equivalent to a day in the week:
+          
+               0 - Sunday
+               1 - Monday
+               2 - Tuesday
+               3 - Wednesday
+               4 - Thursday
+               5 - Friday
+               6 - Saturday
+
+   Zx  -  This command is used to check if a user is in a certain
+          File Group.  Where X is the number of the group as listed
+          in the File Group editor.  For example, Z1 will require
+          the user to be in File Group #1 in order to pass the ACS
+          check.
+
+========
+Examples
+========
+
+   ^                Always returns TRUE.  Grants access to ALL users.
+   
+   %                Always returns FALSE. Grants access to NO users,
+                    not even the SysOp.
+                    
+   s10              User must have a security level of at least 10.
+   
+   s10!s20          User must have a security level which is at least
+                    10 but NOT 20 or greater.
+                    
+   t20|s255         User must have 20 minutes of time remaining, OR
+                    have a security level of 255.
+                    
+   !(s255|fa)       User must NOT have a security level of 255 and flag
+                    A toggled on.
+                    
+   (s20fa)|(s255)   User must have a security level of 20 with flag A
+                    toggled on, *OR* have a security level of 255 or
+                    higher.

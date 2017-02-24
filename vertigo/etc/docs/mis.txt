@@ -1,0 +1,78 @@
+
+Mystic Internet Server
+======================
+
+MIS is an application which acts as a server for various internet
+protocols.  At this time and can server one or all of the following:
+
+Telnet, POP3, SMTP, FTP, and NNTP.
+
+MIS needs to exist in the same folder as MYSTIC.EXE and MYSTIC.DAT files
+in order to work.  It optionally will check for the "mysticbbs" environment
+variable if it exists to find the directory where MYSTIC.DAT resides.
+
+The options for MIS can be found on the Servers menu within the system
+configuration (ie, running mystic -cfg or from the sysop menu when
+logged in).  You can enable/disable different server types, change their
+listening ports, and some other options.
+
+Keep in mind that Linux will require a root user by default to bind to
+server ports less than 1024, so if you enable your telnet server and
+cannot connect, try a port higher than 1024 to make sure it is working.
+
+Setting up a telnet BBS is as simple as loading MIS and telnetting in! :)
+
+It is also worth pointing out that the FTP server does not allow
+uploads, only downloads for now.  This is because I haven't decided how I
+want it to handle processing uploaded files yet.
+
+MIS COMMANDS
+============
+	Arrow keys : Move around the node/status listing.  Left and right
+                     work as page up/down.
+	SPACE      : Attempts to telnet to your own BBS so you can
+                     login from the MIS console.  You must have an
+                     open node for this to work.  It tries to connect
+                     to 127.0.0.1 at whatever the configured telnet port
+                     is.  This means it should work for local login via
+                     Linux and OSX that still use inetd-type services for
+                     telnet sessions (for now).
+        ESCAPE     : Shut down MIS (disconnects all nodes)
+
+IP BLOCKING
+===========
+
+MIS will check your Mystic DATA directory for file named "badip.txt".
+It will use this file to check against the IP addresses of incoming
+connections.  For example, if you wanted to block 123.123.123.123
+you would simply add a line into the badip.txt file with that IP
+address.
+
+IP blocking supports wildcards too, so for example, you could put
+123.123.123.* and block any IP address that begins with
+123.123.123.
+
+If an IP address is blocked, Mystic will attempt to send them the
+contents of the file "blocked.txt" from the Mystic DATA directory.
+If this file does not exist, it will simply print "BLOCKED" to the
+connection's terminal and disconnect them.
+
+DUPLICATE IP CONNECTIONS
+========================
+
+MIS will block an IP from opening multiple connections to the BBS.  If a
+person is already connected to Mystic and they attempt to open a second
+connection, MIS will attempt to send them the contents of the file
+"dupeip.txt" from the Mystic DATA directory.
+
+If the file does not exist, it will simply send them "Only 1
+connection(s) per user" and disconnect only their second connection.
+Their first connection will remain untouched.
+
+BUSY NOTIFICATIONS
+==================
+
+If a connection is made when all of the nodes configured for telnet are
+being used, MIS will attempt to send them the contents of busy.txt from
+the Mystic DATA directory.  If this file does not exist, it will simply
+print "BUSY" to the terminal and disconnect them.
