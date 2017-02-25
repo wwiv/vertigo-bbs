@@ -96,7 +96,7 @@ Var
       Exit;
     End;
 
-    If Not IsValidAKA(PKT.PKTDest.Zone, PKT.PKTDest.Net, PKT.PKTDest.Node, 0) Then Begin
+    If Not IsValidAKA(PKT.PKTDest.Zone, PKT.PKTDest.Net, PKT.PKTDest.Node, PKT.PKTDest.Point) Then Begin
       Log (3, '!', '   ' + JustFile(PktFN) + ' does not match an AKA');
 
       PKT.Close;
@@ -327,7 +327,7 @@ Var
 
     ProcessStatus ('Extracting ' + PktBundle, False);
 
-    ExecuteArchive (TempPath, bbsCfg.InboundPath + PktBundle, ArcType, '*', 2);
+    ExecuteArchive (TempPath, bbsCfg.InboundPath + PktBundle, ArcType, '\*', 2);
 
     BundleList := TStringList.Create;
 

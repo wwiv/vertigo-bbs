@@ -255,14 +255,14 @@ Var
     TempStr3 : String;
   Begin
     // if msg originated from this echomail address then do not export
-
+    Log (3, '!', '   Export 1');
     If (EchoNode.Address.Zone  = MsgBase^.GetOrigAddr.Zone) and
        (EchoNode.Address.Net   = MsgBase^.GetOrigAddr.Net)  and
        (EchoNode.Address.Node  = MsgBase^.GetOrigAddr.Node) and
        (EchoNode.Address.Point = MsgBase^.GetOrigAddr.Point) Then Exit;
 
     // if netmail is TO someone on this system do not export
-
+    Log (3, '!', '   Export 2');
     If MBase.NetType = 3 Then
       If IsValidAKA(MsgBase^.GetDestAddr.Zone, MsgBase^.GetDestAddr.Net, MsgBase^.GetDestAddr.Node, MsgBase^.GetDestAddr.Point) Then
         Exit;
@@ -455,27 +455,26 @@ Begin
         If {MsgBase^.IsLocal And } Not MsgBase^.IsSent Then Begin
           Log (3, '!', '   Found msg for export');
 
-          Assign (ExportFile, MBase.Path + MBase.FileName + '.lnk');
-
-          If ioReset(ExportFile, SizeOf(RecEchoMailExport), fmRWDN) Then Begin
-            While Not Eof(ExportFile) Do Begin
-              Read (ExportFile, ExportIndex);
-
-              If MBase.NetType = 3 Then Begin
-                If GetNodeByRoute(MsgBase^.GetDestAddr, EchoNode) Then
-                  If EchoNode.Active Then Begin
+          If Mbase.NetType = 3 Then Begin
+             If GetNodeByRoute(MsgBase^.GetDestAddr, EchoNode) Then Begin
+                If EchoNode.Active Then Begin
                     ExportMessage;
 
-                    Break;
-                  End;
-              End Else
-              If GetNodeByIndex(ExportIndex, EchoNode) Then
-                If EchoNode.Active Then
-                  ExportMessage;
-            End;
+                End;
+             End;
+          End Else
+             Assign (ExportFile, MBase.Path + MBase.FileName + '.lnk');
 
+             If ioReset(ExportFile, SizeOf(RecEchoMailExport), fmRWDN) Then Begin
+               While Not Eof(ExportFile) Do Begin
+                 Read (ExportFile, ExportIndex);
+
+                 If GetNodeByIndex(ExportIndex, EchoNode) Then
+                 If EchoNode.Active Then
+                    ExportMessage;
+               End;
             Close (ExportFile);
-          End;
+	  End;
 
           MsgBase^.SetSent(True);
           MsgBase^.ReWriteHdr;
