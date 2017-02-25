@@ -96,7 +96,7 @@ Begin
 
   Console.WriteXY (26, 10, 8, FN);
 
-  Assign (CF, INI.ReadString(Header_GENERAL, 'vertigo_directory', 'guardic.dat'));
+  Assign (CF, INI.ReadString(Header_GENERAL, 'vertigo_directory', 'vertigo.dat'));
 
   {$I-} Reset(CF); {$I+}
 
