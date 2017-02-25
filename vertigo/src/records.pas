@@ -46,8 +46,9 @@ Const
   mysVersion     = '2.00 A01';  
   mysDataChanged = '1.10 A11';
   vertCopyNotice  = 'Copyright (C) ' + mysCopyYear + ' Andrew Pamment';
-  guardNotice = vertCopyNotice + #13 + #10 + 'Forked from Guardian BBS v2.00 A01' + #13 + #10 + 'Copyright (C) 2013-2017 Vincent Chapman; 
-  forkNotice  = guardNotice + #13 + #10 + 'Forked from Mystic BBS v1.10 A38' + #13 + #10;
+  guardNotice = vertCopyNotice + #13 + #10 + 'Forked from Guardian BBS v2.00 A01' + #13 + #10;
+  guardCopyNotice = guardNotice + 'Copyright (C) 2013-2017 Vincent Chapman';
+  forkNotice = guardCopyNotice +  #13 + #10 + 'Forked from Mystic BBS v1.10 A38' + #13 + #10;
   mysCopyNotice  = forkNotice + 'Copyright (C) 1997-2013 James Coyle';
 
   {$IFDEF WIN32}

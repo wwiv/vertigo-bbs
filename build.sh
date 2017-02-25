@@ -59,4 +59,10 @@ cd bin
 ./install_make install_data release/scripts/\* SCRIPT
 ./install_make install_data release/doc/\* DOCS
 
+cd ..
+
 rm -rf compile
+rm -rf bin/release
+rm bin/install_make
+
+cp COPYING bin
