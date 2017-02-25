@@ -12,7 +12,6 @@ Uses
   BBS_Records,
   BBS_DataBase,
   mUtil_Common;
-
 Const
   MaxDupeSize = 250000;
 
@@ -400,8 +399,11 @@ Begin
                  If Copy(MsgText[MsgLines]^, 2, 4) = 'INTL' Then
                    Str2Addr(strWordGet(2, MsgText[MsgLines]^, ' '), MsgDest)
                  Else
-                 If (Copy(MsgText[MsgLines]^, 2, 5) = 'MSGID') Then
-                   Str2Addr(strWordGet(2, MsgText[MsgLines]^, ' '), MsgOrig);
+                 If Copy(MsgText[MsgLines]^, 2, 5) = 'MSGID' Then
+                   Str2Addr(strWordGet(2, MsgText[MsgLines]^, ' '), MsgOrig)
+		 Else
+                 If Copy(MsgText[MsgLines]^, 2, 4) = 'TOPT' Then
+		   MsgDest.Point := strS2I(strWordGet(2, MsgText[MsgLines]^, ' '));
                End;
 
                Inc (MsgSize, Length(MsgText[MsgLines]^));
