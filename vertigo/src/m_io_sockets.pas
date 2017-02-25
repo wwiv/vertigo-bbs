@@ -1,8 +1,13 @@
 Unit m_io_Sockets;
 
 {$link m_resolve_address.o}
+{$IFDEF WIN32}
+{$linklib libmsvcrt}
+{$linklib libws2_32}
+{$ENDIF}
+{$IFDEF UNIX}
 {$linklib c}
-
+{$ENDIF}
 {$I M_OPS.PAS}
 
 {.$DEFINE TNDEBUG}

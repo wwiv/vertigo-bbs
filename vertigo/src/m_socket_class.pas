@@ -1,7 +1,13 @@
 Unit m_Socket_Class;
 
 {$link m_resolve_address.o}
+{$IFDEF WIN32}
+{$linklib libmsvcrt}
+{$linklib libws2_32}
+{$ENDIF}
+{$IFDEF UNIX}
 {$linklib c}
+{$ENDIF}
 
 {$I M_OPS.PAS}
 
