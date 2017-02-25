@@ -108,7 +108,8 @@ Type
     Password  : Array[1..8] of Char;
     OrigZone  : System.Word;
     DestZone  : System.Word;
-    Filler    : Array[1..4] of Char;
+    AuxNet    : System.Word;
+    CapValid  : System.Word;
     ProdCode2 : Byte;
     ProdRev2  : Byte;
     Compat    : System.Word;

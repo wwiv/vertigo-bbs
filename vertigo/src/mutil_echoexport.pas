@@ -334,12 +334,12 @@ Var
       PH.ProdCode  := 254;
 
       // Map current V2 values to V2+ values
-
+      
       PH.ProdCode2 := PH.ProdCode;
       PH.OrigZone2 := PH.OrigZone;
       PH.DestZone2 := PH.DestZone;
-      PH.Compat    := $0000000000000001;
-
+      PH.Compat    := 1;
+      PH.CapValid  := 256;
       BlockWrite (F, PH, SizeOf(PH));
     End;
 

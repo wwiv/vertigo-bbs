@@ -62,7 +62,7 @@ cd bin
 cd ..
 
 rm -rf compile
-rm -rf bin/release
+#rm -rf bin/release
 rm bin/install_make
 
 cp COPYING bin
